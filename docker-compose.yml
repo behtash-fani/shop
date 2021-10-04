@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .    
+    container_name: app
+    env_file:
+      - .env
+    volumes:
+      - /Users/behtash/Dev/store/shop/static:/home/src/static/
+    networks:
+      - main
+    ports:
+      - "8000:8000"
+
+  nginx:
+    build: ./nginx
+    command: nginx -g 'daemon off;'
+    volumes:
+      - /Users/behtash/Dev/store/shop/static:/home/src/static/
+    ports:
+      - "80:80"
+    container_name: nginx
+    depends_on:
+      - app
+    networks:
+      - main
+
+networks:
+  main:
+
+volumes:
+  static:

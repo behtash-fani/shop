@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %} 
+{% block content %}
+{% include 'inc/slider.html' %}
+<section class="trending-product section" style="margin-top: 12px">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="section-title">
+          <h2>Trending Product</h2>
+          <p>
+            There are many variations of passages of Lorem Ipsum available, but
+            the majority have suffered alteration in some form.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      {% for product in products %}
+      <div class="col-lg-3 col-md-6 col-12">
+        <!-- Start Single Product -->
+        <div class="single-product">
+          <div class="product-image">
+            <a href="{% url 'shop:product_detail' product.slug %}"><img src="{{product.image.url}}" alt="#" /></a>
+            <div class="button">
+              <a href="{% url 'cart:card_to_add' product.id %}" class="btn"><i class="lni lni-cart"></i> Add to Cart</a>
+            </div>
+          </div>
+          <div class="product-info">
+            <span class="category">{{product.category}}</span>
+            <h4 class="title">
+              <a href="product-grids.html">{{product.name}}</a>
+            </h4>
+            <ul class="review">
+              <li><i class="lni lni-star-filled"></i></li>
+              <li><i class="lni lni-star-filled"></i></li>
+              <li><i class="lni lni-star-filled"></i></li>
+              <li><i class="lni lni-star-filled"></i></li>
+              <li><i class="lni lni-star"></i></li>
+              <li><span>4.0 Review(s)</span></li>
+            </ul>
+            <div class="price">
+            {% if product.discount %}
+            <span>${{product.price_after_set_discount|intcomma}}</span>
+            {% else %}
+            <span>${{product.price|intcomma}}</span>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% include 'inc/last_blog_post.html' %}
+{% endblock content %}

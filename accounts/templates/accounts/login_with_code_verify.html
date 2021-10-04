@@ -1,0 +1,59 @@
+{% extends 'base.html' %} 
+{% block content %}
+<div class="account-login section">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+        <div class="card login-form">
+        <!-- start login with password form-->
+            <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+              <div class="card-body">
+                <div class="title">
+                  <h3>Login Now</h3>
+                  <p>
+                    You can login using your social media account or email address.
+                  </p>
+                </div>
+                <div class="social-login">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4 col-12">
+                      <a class="btn facebook-btn" href="javascript:void(0)"><i class="lni lni-facebook-filled"></i>
+                        Facebook
+                        login</a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-12">
+                      <a class="btn twitter-btn" href="javascript:void(0)"><i class="lni lni-twitter-original"></i>
+                        Twitter
+                        login</a>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-12">
+                      <a class="btn google-btn" href="javascript:void(0)"><i class="lni lni-google"></i> Google
+                        login</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="alt-option">
+                  <span>Or</span>
+                </div>
+                <!-- start login form -->
+                <div class="form-group">
+                  <form action="" method="post">
+                    {% csrf_token %}
+                    {{verifycode}}
+                    <div class="button"><button class="btn" type="submit">Login</button></div>
+                    <p class="outer-link">
+                      Don't have an account? <a href="register.html">Register here </a>
+                    </p>
+                  </form>
+                </div>
+                <!-- end login form -->
+              </div>
+            </div>
+            <!-- end login with password form-->
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

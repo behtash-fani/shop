@@ -1,0 +1,168 @@
+{% extends 'base.html' %} 
+{% block title %}| {{category.name}}{% endblock title %}
+{% block page_title %}{{category.name}}{% endblock page_title %}
+{% block breadcrumbs %}{{ block.super }}Products({{category.name}}){% endblock %}
+
+{% block content %}
+<section class="product-grids section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-12">
+        <div class="product-sidebar">
+          <div class="single-widget search">
+            <h3>Search Product</h3>
+            <form action="{% url 'shop:product_search' %}">
+              <input type="text" placeholder="Search" name='q' />
+              <button type="submit"><i class="lni lni-search-alt"></i></button>
+            </form>
+          </div>
+          <div class="single-widget">
+            <h3>All Categories</h3>
+            <ul class="list">
+              {% for category in categories %}
+              <li>
+                <a href="product-grids.html">{{category.name}}</a><span></span>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-9 col-12">
+        <div class="product-grids-head">
+        {% if page_obj %}
+        <div class="product-grid-topbar">
+            <div class="row align-items-center">
+              <div class="col-lg-7 col-md-8 col-12">
+                <div class="product-sorting">
+                  <label for="sorting">Sort by:</label>
+                  <select class="form-control" id="sorting_product" onchange="location=this.value;">
+                    <option value="{% url 'shop:home' %}">-- Select --</option>
+                    <option value="{% url 'shop:lowprice' category.slug %}">Low - High Price</option>
+                    <option value="{% url 'shop:highprice' category.slug %}">High - Low Price</option>
+                    <option value="{% url 'shop:a-to-z-name' category.slug %}">A - Z Order</option>
+                    <option value="{% url 'shop:z-to-a-name' category.slug %}">Z - A Order</option>
+                    <option hidden="hidden" id='sorting' value="{{sorting}}"></option>
+                  </select>
+                  <h3 class="total-show-product">
+                    Showing: <span>1 - {{ page_obj.object_list | length }} items</span>
+                  </h3>
+                </div>
+              </div>
+              <div class="col-lg-5 col-md-4 col-12">
+                <nav>
+                  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-grid-tab" data-bs-toggle="tab" data-bs-target="#nav-grid"
+                      type="button" role="tab" aria-controls="nav-grid" aria-selected="true">
+                      <i class="lni lni-grid-alt"></i>
+                    </button>
+                    <button class="nav-link" id="nav-list-tab" data-bs-toggle="tab" data-bs-target="#nav-list"
+                      type="button" role="tab" aria-controls="nav-list" aria-selected="false">
+                      <i class="lni lni-list"></i>
+                    </button>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <div class="product-grid-topbar">
+            <div class="row align-items-center">
+              <div class="col-lg-7 col-md-8 col-12">
+              <p>There is no product in <span style='color:#0167f3'>{{category}}</span> category</p>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-grid" role="tabpanel" aria-labelledby="nav-grid-tab">
+              <div class="row">
+                {% for product in page_obj %}
+                <div class="col-lg-4 col-md-6 col-12">
+                  <div class="single-product">
+                    <div class="product-image">
+                      <a href="{% url 'shop:product_detail' product.slug %}"><img src="{{product.image.url}}"
+                          alt="#" /></a>
+                      <div class="button">
+                        <a href="{% url 'cart:card_to_add' product.id %}" class="btn"><i class="lni lni-cart"></i> Add
+                          to Cart</a>
+                      </div>
+                    </div>
+                    <div class="product-info">
+                      <span class="category">{{product.subcategory}}</span>
+                      <h4 class="title">
+                        <a href="{% url 'shop:product_detail' product.slug %}">{{product.name}}</a>
+                      </h4>
+                      <ul class="review">
+                        <li><i class="lni lni-star-filled"></i></li>
+                        <li><i class="lni lni-star-filled"></i></li>
+                        <li><i class="lni lni-star-filled"></i></li>
+                        <li><i class="lni lni-star-filled"></i></li>
+                        <li><i class="lni lni-star"></i></li>
+                        <li><span>4.0 Review(s)</span></li>
+                      </ul>
+                      <div class="price">
+                        <span>${{product.price}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            
+              {% include 'inc/paginator.html' %}
+            </div>
+            <div class="tab-pane fade" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
+              <div class="row">
+                {% for product in page_obj %}
+                <div class="col-lg-12 col-md-12 col-12">
+                  <div class="single-product">
+                    <div class="row align-items-center">
+                      <div class="col-lg-4 col-md-4 col-12">
+                        <div class="product-image">
+                          <a href="{% url 'shop:product_detail' product.slug %}"><img src="{{product.image.url}}"
+                              alt="#" /></a>
+                          <span class="sale-tag">-25%</span>
+                          <div class="button">
+                            <a href="{% url 'cart:card_to_add' product.id %}" class="btn"><i class="lni lni-cart"></i>
+                              Add to Cart</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-8 col-md-8 col-12">
+                        <div class="product-info">
+                          <span class="category">{{product.subcategory}}</span>
+                          <h4 class="title">
+                            <a href="{% url 'shop:product_detail' product.slug %}">{{product.name}}</a>
+                          </h4>
+                          <ul class="review">
+                            <li><i class="lni lni-star-filled"></i></li>
+                            <li><i class="lni lni-star-filled"></i></li>
+                            <li><i class="lni lni-star-filled"></i></li>
+                            <li><i class="lni lni-star-filled"></i></li>
+                            <li><i class="lni lni-star-filled"></i></li>
+                            <li><span>5.0 Review(s)</span></li>
+                          </ul>
+                          <div class="price">
+                            <span>${{product.price}}</span>
+                            <span class="discount-price">$300.00</span>
+                          </div>
+                          <div>
+                            <span>{{product.short_description}}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              {% include 'inc/paginator.html' %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="account-login section">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                <div class="card login-form">
+                    <!-- start login with code form -->
+                    <div class="card-body">
+                        <div class="title">
+                            <h3>Login Now</h3>
+                            <p>please select one of this way that you comfortable login to your account</p>
+                        </div>
+                        <!-- start login form -->
+                        <div class="row col-6 mx-auto d-block">
+                                <a href={% url 'accounts:user_login_with' %} class="btn btn-outline-primary mb-1">login
+                                    with password</a>
+                                <a href={% url 'accounts:user_login_code' %} class="btn btn-outline-primary">login with
+                                    code</a>
+                        </div>
+
+
+                    </div>
+
+                    <!-- end login form -->
+                </div>
+                <!-- end login with code form-->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}| WishList{% endblock title %}
+{% block content %}
+<div class="wishlist section">
+    <div class="container">
+        {% if wishlist_item_count < 1 %}
+        <div class="cart-list-title">
+            <p>You have not yet selected a product to wishlist</p>
+        </div>
+        {% else %}
+        <div class="cart-list-head">
+            <div class="cart-list-title">
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 col-12">
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-12">
+                        <p>Product Name</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <p>Stock</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <p>Cost</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <p>Discount</p>
+                    </div>
+                    <div class="col-lg-1 col-md-2 col-12">
+                        <p>Remove</p>
+                    </div>
+                </div>
+            </div>
+            {% for item in wishlist %}
+            {% for product in item.products.all %}
+            <div class="cart-single-list">
+                <div class="row align-items-center">
+                    <div class="col-lg-1 col-md-1 col-12">
+                        <a href="#"><img src="{{product.image.url}}" alt="#"></a>
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-12">
+                        <h5 class="product-name"><a
+                                href="{% url 'shop:product_detail' product.slug %}">{{product.name}}</a></h5>
+                        <p class="product-des">
+                            <span><em>Category:</em> {{product.subcategory.name}}</span>
+                        </p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <div class="stock-input">
+                            {{product.stock}}
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                        {% if product.discount %}
+                        ${{product.price_after_set_discount}}
+                        {% else %}
+                        ${{product.price}}
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                        {% if product.discount %}
+                        <p>{{product.discount}}%</p>
+                        {% else %}
+                        <p>—</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-1 col-md-2 col-12">
+                        <a class="remove-item" href="{% url 'wishlist:remove_wishlist' product.id %}"><i
+                                class="lni lni-close"></i></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

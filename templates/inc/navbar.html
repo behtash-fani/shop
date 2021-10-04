@@ -1,0 +1,258 @@
+{% load static %}
+<header class="header navbar-area">
+    <!-- Start Topbar -->
+    <div class="topbar">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="top-left">
+                        <ul class="menu-top-link">
+                            <li>
+                                <div class="select-position">
+                                    <select id="select4">
+                                        <option value="0" selected>$ USD</option>
+                                        <option value="1">€ EURO</option>
+                                        <option value="2">$ CAD</option>
+                                        <option value="3">₹ INR</option>
+                                        <option value="4">¥ CNY</option>
+                                        <option value="5">৳ BDT</option>
+                                    </select>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="select-position">
+                                    <select id="select5">
+                                        <option value="0" selected>English</option>
+                                        <option value="1">Español</option>
+                                        <option value="2">Filipino</option>
+                                        <option value="3">Français</option>
+                                        <option value="4">العربية</option>
+                                        <option value="5">हिन्दी</option>
+                                        <option value="6">বাংলা</option>
+                                    </select>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="top-middle">
+                        <ul class="useful-links">
+                            <li><a href="{% url 'shop:home' %}">Home</a></li>
+                            <li><a href="{% url 'shop:about-us' %}">About Us</a></li>
+                            <li><a href="{% url 'shop:contact-us' %}">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="top-end">
+                        {% if request.user.is_authenticated %}
+                        <ul class="user-login">
+                            <li>
+                                <i class="lni lni-user" style="color: #FFF"></i> <a
+                                    href="{% url 'accounts:user_personal_info' %}">Hello
+                                    {% if request.user.nickname %}
+                                    {{request.user.nickname}}
+                                    {% else %}{{request.user.phone}}{% endif %}</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'accounts:user_logout' %}">Sign Out</a>
+                            </li>
+                        </ul>
+                        {% else %}
+                        <ul class="user-login">
+                            <li>
+                                <a href="{% url 'accounts:user_login' %}">Sign In</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'accounts:user_register' %}">Register</a>
+                            </li>
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Topbar -->
+    <!-- Start Header Middle -->
+    <div class="header-middle">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-3 col-md-3 col-7">
+                    <!-- Start Header Logo -->
+                    <a class="navbar-brand" href="{% url 'shop:home' %}">
+                        <img src="{% static 'images/logo/main_logo.svg' %}" alt="Logo">
+                    </a>
+                    <!-- End Header Logo -->
+                </div>
+                <div class="col-lg-5 col-md-7 d-xs-none">
+                    <!-- Start Main Menu Search -->
+                    <div class="main-menu-search">
+                        <!-- navbar search start -->
+                        <form action="{% url 'shop:product_search' %}">
+                            <div class="navbar-search search-style-5">
+                                <div class="search-input">
+                                    <input type="text" placeholder="Search" name='q'>
+                                </div>
+                                <div class="search-btn">
+                                    <button><i class="lni lni-search-alt"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- navbar search Ends -->
+                    </div>
+                    <!-- End Main Menu Search -->
+                </div>
+                <div class="col-lg-4 col-md-2 col-5">
+                    <div class="middle-right-area">
+                        <div class="nav-hotline">
+                            <i class="lni lni-phone"></i>
+                            <h3>Hotline:
+                                <span>(+98) 930 252 1022</span>
+                            </h3>
+                        </div>
+                        <div class="navbar-cart">
+                            <div class="wishlist">
+                                <a href="{% url 'wishlist:wishlist' %}">
+                                    <i class="lni lni-heart"></i>
+                                    <span class="total-items">{{wishlist_item_count}}</span>
+                                </a>
+                            </div>
+
+                            <div class="cart-items">
+                                <a href="javascript:void(0)" class="main-btn">
+                                    <i class="lni lni-cart"></i>
+                                    {% if item_count == 0 %}
+                                    <span class="total-items">0</span>
+                                    {% else %}
+                                    {% for item in cart %}
+                                    <span class="total-items">{{ item_count }}</span>
+                                    {% endfor %}
+                                    {% endif %}
+                                </a>
+                                <!-- Shopping Item -->
+                                {% if item_count >= 1 %}
+                                <div class="shopping-item">
+                                    <div class="dropdown-cart-header">
+                                        <span>{{ item_count }}{% if item_count == 1 %}
+                                            Item {% else %} Items{% endif %}</span>
+                                        <a href="{% url 'cart:cart_detail' %}">View Cart</a>
+                                    </div>
+                                    <ul class="shopping-list">
+                                        {% for item in cart %}
+                                        <li>
+                                            <a href="{% url 'cart:card_remove' item.product.id %}" class="remove"
+                                                title="Remove this item"><i class="lni lni-close"></i></a>
+                                            <div class="cart-img-head">
+                                                <a class="cart-img"
+                                                    href="{% url 'shop:product_detail' item.product.slug %}"><img
+                                                        src="{{item.product.image.url}}" alt="#"></a>
+                                            </div>
+
+                                            <div class="content">
+                                                <h4><a
+                                                        href="{% url 'shop:product_detail' item.product.slug %}">{{item.product.name}}</a>
+                                                </h4>
+                                                <p class="quantity">{{item.quantity}}x - <span
+                                                        class="amount">${{item.total_price}}</span></p>
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <div class="bottom">
+                                        <div class="total">
+                                            <span>Total</span>
+                                            <span class="total-amount">${{cart.get_total_price}}</span>
+                                        </div>
+                                        <div class="button">
+                                            <a href="#" class="btn animate">Checkout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                <!--/ End Shopping Item -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Header Middle -->
+    <!-- Start Header Bottom -->
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 col-md-6 col-12">
+                <div class="nav-inner">
+                    <!-- Start Mega Category Menu -->
+                    <div class="mega-category-menu">
+                        <span class="cat-button"><i class="lni lni-menu"></i>All Categories</span>
+                        <ul class="sub-category">
+                            {% for category in categories %}
+                            <li>
+                                <a href="{% url 'shop:category_product_list' category.slug %}">{{category.name}}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!-- End Mega Category Menu -->
+                    <!-- Start Navbar -->
+                    <nav class="navbar navbar-expand-lg">
+                        <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="toggler-icon"></span>
+                            <span class="toggler-icon"></span>
+                            <span class="toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+                            <ul id="nav" class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <a href="{% url 'shop:home' %}" aria-label="Toggle navigation">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="dd-menu collapsed" href="javascript:void(0)" data-bs-toggle="collapse"
+                                        data-bs-target="#submenu-1-4" aria-controls="navbarSupportedContent"
+                                        aria-expanded="false" aria-label="Toggle navigation">Blog</a>
+                                    <ul class="sub-menu collapse" id="submenu-1-4">
+                                        <li class="nav-item"><a href="{% url 'blog:article_list' %}">All Article</a>
+                                        </li>
+                                        <hr>
+                                        {% for article_cat in article_categories %}
+                                        <li class="nav-item"><a href="{% url 'blog:category_article_list' article_cat.slug %}">{{article_cat.title}}</a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div> <!-- navbar collapse -->
+                    </nav>
+                    <!-- End Navbar -->
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12">
+                <!-- Start Nav Social -->
+                <div class="nav-social">
+                    <h5 class="title">Follow Us:</h5>
+                    <ul>
+                        <li>
+                            <a href="javascript:void(0)"><i class="lni lni-facebook-filled"></i></a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"><i class="lni lni-twitter-original"></i></a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"><i class="lni lni-instagram"></i></a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"><i class="lni lni-skype"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- End Nav Social -->
+            </div>
+        </div>
+    </div>
+    <!-- End Header Bottom -->
+</header>

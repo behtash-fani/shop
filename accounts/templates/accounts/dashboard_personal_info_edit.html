@@ -1,0 +1,61 @@
+{% extends 'accounts/dashboard_base.html' %}
+{% block title %}| Personal Info Edit{% endblock title %}
+{% block account_breadcrumb_title %}| Personal Info{% endblock account_breadcrumb_title %}
+{% block account_breadcrumb %}Edit{% endblock account_breadcrumb %}
+
+{% block dashboard %}
+<div class="row">
+    <div class="col">
+        <h3>Update Personal Info</h3>
+    </div>
+</div>
+<hr>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="fieldWrapper mb-3">
+        {{ form.image.errors }}
+        <label for="{{ form.image.id_for_label }}" class="form-label">Image :</label>
+        <input type="file" name="image" value='{{ request.user.image }}' id="id_image" class='form-control'>
+    </div>
+    <div class="fieldWrapper mb-3">
+        {{ form.email.errors }}
+        <label for="{{ form.email.id_for_label }}" class="form-label">Email :</label>
+        <input type="email" name="email" placeholder='Email' value='{{ request.user.email }}' maxlength="100"
+            id="id_email" class='form-control'>
+    </div>
+    <div class="fieldWrapper mb-3">
+        {{ form.nickname.errors }}
+        <label for="{{ form.nickname.id_for_label }}" class="form-label">NickName :</label>
+        <input type="text" name="nickname" placeholder='NickName' value='{{ request.user.nickname }}' maxlength="100"
+            id="id_nickname" class='form-control'>
+    </div>
+    <div class="fieldWrapper mb-3">
+        {{ form.first_name.errors }}
+        <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name :</label>
+        <input type="text" name="first_name" placeholder='First Name' value='{{ request.user.first_name }}'
+            maxlength="100" id="id_first_name" class='form-control'>
+    </div>
+    <div class="fieldWrapper mb-3">
+        {{ form.last_name.errors }}
+        <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name :</label>
+        <input type="text" name="last_name" placeholder='Last Name' value='{{ request.user.last_name }}' maxlength="100"
+            id="id_last_name" class='form-control'>
+    </div>
+    <div class="fieldWrapper mb-3">
+        {{ form.bio.errors }}
+        <label for="{{ form.bio.id_for_label }}" class="form-label">Bio :</label>
+        <input type="text" name="bio" placeholder="Bio" value='{{ request.user.bio }}' maxlength="100" id="id_bio"
+            class="form-control">
+    </div>
+    <input type="submit" value="Update" class="btn btn-outline-primary">
+    <a href={% url 'accounts:user_personal_info' %} class="btn btn-outline-secondary">Cancel</a>
+</form>
+{% endblock %}
+{% block tips %}
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
+book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially
+unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
+recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+{% endblock tips %}

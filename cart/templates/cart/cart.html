@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}| Cart{% endblock title %}
+
+{% block page_title %}Cart{% endblock page_title %}
+{% block breadcrumbs %}
+<li>Cart</li>
+{% endblock %}
+{% block content %}
+<div class="shopping-cart section">
+    <div class="container">
+    {% if item_count > 0 %}
+        <div class="cart-list-head">
+            <div class="cart-list-title">
+            
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 col-12">
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-12">
+                        <p>Product Name</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <p>Quantity</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <p>Subtotal</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <p>Discount</p>
+                    </div>
+                    <div class="col-lg-1 col-md-2 col-12">
+                        <p>Remove</p>
+                    </div>
+                </div>
+            </div>
+            
+
+            {% for item in cart %}
+            <div class="cart-single-list">
+                <div class="row align-items-center">
+                    <div class="col-lg-1 col-md-1 col-12">
+                        <a href="{% url 'shop:product_detail' item.product.slug %}"><img src="{{item.product.image.url}}" alt="#"></a>
+                    </div>
+                    <div class="col-lg-4 col-md-3 col-12">
+                        <h5 class="product-name"><a href="{% url 'shop:product_detail' item.product.slug %}">{{item.product.name}}</a></h5>
+                        <p class="product-des">
+                            <span><em>Type:</em> Laser</span>
+                            <span><em>Color:</em> White</span>
+                        </p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <div class="count-input">
+                        {{item.quantity}}
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <p>${{item.total_price|intcomma}}</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-12">
+                    {% if item.product.discount %}
+                    <p>{{item.product.discount}}%</p>
+                    {% else %}
+                    <p>--</p>
+                    {% endif %}
+                        
+                    </div>
+                    <div class="col-lg-1 col-md-2 col-12">
+                        <a class="remove-item" href="{% url 'cart:card_remove' item.product.id %}"><i class="lni lni-close"></i></a>
+                    </div>
+                </div>
+            </div>
+                {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-12">
+
+                <div class="total-amount">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-6 col-12">
+                            <div class="left">
+                                <div class="coupon">
+                                    <form action="#" target="_blank">
+                                        <input name="Coupon" placeholder="Enter Your Coupon">
+                                        <div class="button">
+                                            <button class="btn">Apply Coupon</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <div class="right">
+                                <ul>
+                                    <li>Cart Subtotal<span>${{cart.get_total_price}}</span></li>
+                                    <li>Shipping<span>Free</span></li>
+                                    <li>You Save<span>$29.00</span></li>
+                                    <li class="last">You Pay<span>2531T</span></li>
+                                </ul>
+                                <div class="button">
+                                    <a href="{% url 'orders:create' %}" class="btn">Checkout</a>
+                                    <a href="product-grids.html" class="btn btn-alt">Continue shopping</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% else %}
+            <div class="cart-list-title">
+            <p>You have not yet selected a product to purchase</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

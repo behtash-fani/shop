@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}| Account{% endblock title %}
+{% block page_title %}Account
+{% block account_breadcrumb_title %}{% endblock account_breadcrumb_title %}{% endblock page_title %}
+{% block breadcrumbs %}
+<li>Account</li>
+<li>{% block account_breadcrumb %}{% endblock account_breadcrumb %}</li>
+{% endblock %}
+{% block content %}
+<section class="item-details section">
+    <div class="container">
+        <div class="top-area">
+            <div class="row">
+                <div class="col-lg-2 col-md-12 col-12">
+                    <div class="nav flex-column me-3">
+                        {% if user.image %}
+                        <img src="{{user.image.url}}" class="rounded mx-auto mb-2" width="100" alt="">
+                        {% else %}
+                        <i class="bi bi-person-bounding-box text-center display-1"></i>
+                        {% comment %} <img src="{% static 'images/avatar.jpg' %}" class="rounded mx-auto" width="100" height="100" alt=""> {% endcomment %}
+                        {% endif %}
+                        {% if user.nickname %}
+                        <p class="mx-auto fs-5">{{user.nickname}}</p>
+                        {% elif user.first_name and user.last_name %}
+                        <p class="mx-auto fs-5">{{user.first_name}} {{user.last_name}}</p>
+                        {% else %}
+                        <p class="mx-auto fs-5">{{user.phone}}</p>
+                        {% endif %}
+                        <hr>
+                    </div>
+                    <div>
+                        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                            aria-orientation="vertical">
+                            <a href="{% url 'accounts:user_personal_info' %}" class="nav-link active mb-1 text-center"
+                                type="button">Personal Info</a>
+                            <a href="{% url 'accounts:user_wish_list' %}" class="nav-link active mb-1 text-center"
+                                type="button">Wishlist</a>
+                            <a href="{% url 'accounts:products_purchased' %}" class="nav-link active mb-1 text-center"
+                                type="button">Purchases</a>
+                            <a href="{% url 'accounts:api_info' %}" class="nav-link active mb-1 text-center" type="button">API document</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-12 mx-auto">
+                    {% block dashboard %}{%endblock %}
+                </div>
+                <div class="col-lg-3 col-md-12 col-12">
+                    <h3><i class="bi bi-info-square"></i> Tips</h3>
+                    <p>{% block tips %}{% endblock tips %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+{% endblock content %}

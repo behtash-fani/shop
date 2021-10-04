@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+{% block title %}| {{product.name}}{% endblock title %}
+{% block page_title %}{{product.name}}{% endblock page_title %}
+{% block breadcrumbs %}
+<li><a href="{% url 'shop:category_product_list' product.maincategory.slug %}">{{product.maincategory}}</a></li>
+<li>{{product.name}}</li>
+{% endblock %}
+{% block content %}
+<!-- Start Item Details -->
+<section class="item-details section">
+    <div class="container">
+        <div class="top-area">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-12 col-12">
+                    <div class="product-images">
+                        <main id="gallery">
+                            <div class="main-img">
+                                <img src="{{product.image.url}}" id="current" alt="#">
+                            </div>
+                        </main>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-12">
+                    <div class="product-info">
+                        <h2 class="title">{{product.name}}</h2>{{product.subcategory}}</a></p><br>
+                        {% if product.discount %}
+                        {% if product.price_after_set_discount == 0 %}
+                        <h3 class="price">FREE</h3>
+                        {% else %}
+                        <h3 class="price">${{product.price_after_set_discount|intcomma}}<span>${{product.price|intcomma}}</span></h3>
+                        {% endif %}
+                        {% else %}
+                        <h3 class="price">${{product.price|intcomma}}</h3 {% endif %} <p class="info-text">
+                        {{product.short_description}}</p>
+                        <div class="row">
+                        </div>
+                        <div class="bottom-content">
+                            <div class="row align-items-end">
+                                <div class="col-lg-4 col-md-4 col-12">
+                                    <div class="form-group quantity">
+                                        <form action="{% url 'cart:card_add' product.id %}" method="post">
+                                            {% csrf_token %}
+                                            {{form}}
+                                            <div class="wish-button">
+                                                <button type="submit" class="btn mt-1"><i class="bi bi-cart-plus"></i>
+                                                    Add to Cart</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                {% comment %} <div class="col-lg-4 col-md-4 col-12">
+                                    <div class="wish-button">
+                                        <button class="btn"><i class="lni lni-reload"></i> Compare</button>
+                                    </div>
+                                </div> {% endcomment %}
+                                <div class="col-lg-4 col-md-4 col-12">
+                                    <div class="wish-button">
+                                        {% if product.name not in wishlist_product %}
+                                        <a href="{% url 'wishlist:add_wishlist' product.id product.slug %}" class="btn">
+                                            <i class="lni lni-heart"></i> To Wishlist
+                                        </a>
+                                        {% else %}
+                                        <a href="{% url 'wishlist:remove_wishlist' product.id %}" class="btn-active">
+                                            <i class="lni lni-heart"></i> Remove
+                                        </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="product-details-info">
+            <div class="single-block">
+                <div class="row">
+                    <div class="col-lg-12 col-12">
+                        <div class="info-body">
+                            <h4>Specifications</h4>
+                            <ul class="normal-list">
+                                {{product.specifications | linebreaks}}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-12">
+                        <div class="info-body custom-responsive-margin">
+                            <h4>Details</h4>
+                            <p>{{product.description}}</p>
+                            <h4>Features</h4>
+                            <ul class="features">
+                                <li>Capture 4K30 Video and 12MP Photos</li>
+                                <li>Game-Style Controller with Touchscreen</li>
+                                <li>View Live Camera Feed</li>
+                                <li>Full Control of HERO6 Black</li>
+                                <li>Use App for Dedicated Camera Operation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Item Details -->
+
+<!-- Review Modal -->
+<div class="modal fade review-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Leave a Review</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="review-name">Your Name</label>
+                            <input class="form-control" type="text" id="review-name" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="review-email">Your Email</label>
+                            <input class="form-control" type="email" id="review-email" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="review-subject">Subject</label>
+                            <input class="form-control" type="text" id="review-subject" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="review-rating">Rating</label>
+                            <select class="form-control" id="review-rating">
+                                <option>5 Stars</option>
+                                <option>4 Stars</option>
+                                <option>3 Stars</option>
+                                <option>2 Stars</option>
+                                <option>1 Star</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="review-message">Review</label>
+                    <textarea class="form-control" id="review-message" rows="8" required></textarea>
+                </div>
+            </div>
+            <div class="modal-footer button">
+                <button type="button" class="btn">Submit Review</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

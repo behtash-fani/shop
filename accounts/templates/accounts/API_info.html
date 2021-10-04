@@ -1,0 +1,43 @@
+{% extends 'accounts/dashboard_base.html' %}
+{% block title %}| API document{% endblock title %}
+{% block account_breadcrumb_title %}| API document{% endblock account_breadcrumb_title %}
+{% block account_breadcrumb %}api document{% endblock account_breadcrumb %}
+
+{% block dashboard %}
+<div class="row">
+    <div class="col">
+        <h3>API Document</h3>
+    </div>
+</div>
+<hr>
+<p><i class="bi bi-exclamation-diamond"></i> you can access to all api documentation in swagger and use very easily</p>
+<br>
+<div class="mb-3">
+  <label for="exampleFormControlInput1" class="form-label">Main Swagger Link : </label>
+  <input class="form-control" type="text" value="{{request.get_host}}/swagger/" aria-label="readonly input" readonly>
+</div>
+<div class="mb-3">
+  <label for="exampleFormControlInput1" class="form-label">Swagger JSON format Link : </label>
+  <input class="form-control" type="text" value="{{request.get_host}}/swagger.json" aria-label="readonly input" readonly>
+</div>
+<div class="mb-3">
+  <label for="exampleFormControlInput1" class="form-label">Swagger YAML format Link : </label>
+  <input class="form-control" type="text" value="{{request.get_host}}/swagger.yaml" aria-label="readonly input" readonly>
+</div>
+<div class="mb-3">
+  <label for="exampleFormControlInput1" class="form-label">Redoc Link : </label>
+  <input class="form-control" type="text" value="{{request.get_host}}/redoc/" aria-label="readonly input" readonly>
+</div>
+
+
+
+<div>
+</div>
+{% endblock %}
+{% block tips %}
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
+book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially
+unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
+recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+{% endblock tips %}
