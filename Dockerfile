@@ -1,14 +1,18 @@
 FROM python:latest
 
-RUN pip install -U pip
+ENV PYTHONUNBUFFERED 1
 
-COPY ./requirements.txt .
-RUN  pip install -r requirements.txt
-
-COPY . /src/
-
+RUN mkdir /src
 WORKDIR /src
+COPY . /src
+
+ADD requirements.txt /src
+RUN pip install -U pip
+RUN pip install -r requirements.txt
 
 
-COPY ./entrypoint.sh /
-ENTRYPOINT ["sh", "/entrypoint.sh"]
+RUN python manage.py collectstatic --no-input
+
+EXPOSE 8000
+
+CMD ["gunicorn", "--chdir", "shop", "--bind", ":8000",  "config.wsgi:application"]

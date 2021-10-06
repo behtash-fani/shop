@@ -1,18 +1,18 @@
-version: "3.9"
+version: '3.9'
 
 services:
-  shop:
+  nginx:
+    container_name: nginx
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:
-      - .:/src
-      - shop_static_volume:/shop/static/
-    restart: always
     ports:
-      - "8000:8000"
+      - "80:80"
+    volumes:
+      - shop_static_volume:/shop/static/
     networks:
       - shop_main
+    restart: always
 
 volumes:
   shop_static_volume:
